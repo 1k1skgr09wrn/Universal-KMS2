@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install ps2exe
         shell: pwsh
@@ -26,7 +26,7 @@ jobs:
           Invoke-PS2EXE .\Universal-KMS.ps1 .\Universal-KMS.exe -noConsole
 
       - name: Upload artifact (backup)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Universal-KMS
           path: Universal-KMS.exe
