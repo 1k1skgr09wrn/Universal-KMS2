@@ -14,22 +14,28 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install ps2exe
+        shell: pwsh
         run: |
           Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-          Install-Module -Name ps2exe -Scope CurrentUser -Force -AllowClobber -Confirm:$false
+          Install-Module ps2exe -Force -AllowClobber -Scope CurrentUser
 
       - name: Compile EXE
+        shell: pwsh
         run: |
           Import-Module ps2exe
           Invoke-PS2EXE .\Universal-KMS.ps1 .\Universal-KMS.exe -noConsole
+
+      - name: Upload artifact (backup)
+        uses: actions/upload-artifact@v3
+        with:
+          name: Universal-KMS
+          path: Universal-KMS.exe
 
       - name: Create Release and Upload EXE
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.run_number }}
           name: "Build ${{ github.run_number }}"
-          draft: false
-          prerelease: false
           files: Universal-KMS.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
