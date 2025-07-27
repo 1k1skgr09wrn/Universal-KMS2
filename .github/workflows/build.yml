@@ -1,10 +1,10 @@
 name: Build and Release EXE
 
 on:
-  workflow_dispatch:   # позволяет запускать вручную
+  workflow_dispatch: # возможность запускать вручную
   push:
     branches:
-      - main           # запуск при пуше в main
+      - main
 
 jobs:
   build:
@@ -27,7 +27,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.run_number }}
-          name: "Build ${{ github.run_number }}"
+          release_name: "Build ${{ github.run_number }}"
+          draft: false
+          prerelease: false
           files: Universal-KMS.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
